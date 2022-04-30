@@ -3,8 +3,10 @@ from controlador import Controlador
 
 class Menu:
     __opcion: int
+    __control: Controlador
     def __init__(self):
         self.__opcion=0
+        self.__control=Controlador()
 
     def getMenu(self):
         centinela=0
@@ -21,19 +23,19 @@ Ingrese Opcion--> """))
 
             if self.__opcion==1:
                 os.system("cls")
-                control=Controlador().mostrar()
+                self.__control.mostrar()
 
             if self.__opcion==2:
                 os.system("cls")
-                control=Controlador().union()
+                self.__control.union()
 
             if self.__opcion==3:
                 os.system("cls")
-                control=Controlador().diferencia()
+                self.__control.diferencia()
 
             if self.__opcion==4:
                 os.system("cls")
-                control=Controlador().verificacion()
+                self.__control.verificacion()
 
             if self.__opcion==0:
                 os.system("cls")

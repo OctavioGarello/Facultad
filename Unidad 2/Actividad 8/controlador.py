@@ -1,11 +1,11 @@
 from clase import Conjunto
 
 class Controlador:
-    __conjunto1=Conjunto([1,2,3])
-    __conjunto2=Conjunto([1,2,3])
+    __conjunto1:Conjunto
+    __conjunto2:Conjunto
     def __init__(self):
-        self.__conjunto1
-        self.__conjunto2
+        self.__conjunto1=Conjunto([1,2,3])
+        self.__conjunto2=Conjunto([1,2,3])
     
     def mostrar(self):
         print("\n**Mostrar Conjuntos**")
