@@ -1,7 +1,5 @@
 from clase import ViajeroFrecuente
 import csv
-"""3-Canjear millas se pueda resolver de la siguiente forma: sea v una instancia de la clase ViajeroFrecuente, debe ser posible 
-realizar v =  100 - v"""
 
 class Controlador:
     __lista: list[ViajeroFrecuente]

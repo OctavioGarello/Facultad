@@ -10,10 +10,28 @@ se resuelve de la siguiente forma v = v + 100.
 3-Canjear millas usando la sobrecarga del operador binario resta(-),obteniendo como resultado de la resta una instancia 
 de la clase ViajeroFrecuente. Por ejemplo, sea v una instancia de la clase ViajeroFrecuente, la función de canjear millas 
 se resuelve de la siguiente forma v = v - 100."""
-
+from clase import ViajeroFrecuente
 from controlador import Controlador
+def test():
+    print('TEST'.center(30,'-'))
+    instancia=ViajeroFrecuente(1,"43281084","Octavio","Garello",500)
+    instancia2=ViajeroFrecuente(2,"33333333","Mario","Perez",200)
 
+    acum=100
+    instancia.getNombre()
+    instancia.cantidadTotalMillas()
+    instancia.acumularMillas(acum)
+    instancia.canjearMillas(acum)
+    instancia.modificar(acum)
+
+    gt=instancia>instancia2
+    add=instancia+acum
+    sub=instancia-acum
+    print("No hay Error")
+    print('TEST'.center(30,'-'))
+    print("\n")
 if __name__=="__main__":
+    test()
     control=Controlador()
     control.cantidadViajeros()
 

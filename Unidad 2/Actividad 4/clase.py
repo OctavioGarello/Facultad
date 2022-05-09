@@ -17,7 +17,7 @@ class Ventana:
             print("*** Error de Coordenadas ***") 
         if  self.__xinf>500 or self.__yinf>500:
             print("*** Error de Coordenadas ***") 
-        if (self.__xinf> self.__xsup) or (self.__yinf > self.__ysup):
+        if (self.__xinf< self.__xsup) or (self.__yinf < self.__ysup):
             print("*** Error de Coordenadas ***") 
 
     def getTitulo(self):

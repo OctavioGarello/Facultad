@@ -48,8 +48,20 @@ class Email:
         newtip=y[1]
         return Email(newid,newdom,newtip)
 
+def test():
+    print("------------\n#TEST")
+    objeto=Email("octa","gmail","com","12345")
+    print("Estimado .... te enviaremos tus mensajes a la dirección "+objeto.retornaEmail()+".")
+    print(objeto.getIdcuenta())
+    print(objeto.getDominio())
+    print("Contraseña Actual: 12345")
+    print("Nueva Contraseña: 43281084")
+    objeto.cambiarContra("12345","43281084")
+    print("------------\n")
+
 
 if __name__ == "__main__":
+    test()
     print("------------")
     nom=input("Ingrese su Nombre: ")
     nomu=input("Nombre Usuario: ")
@@ -90,14 +102,4 @@ if __name__ == "__main__":
         print("Se repite Identificador")
     else:
         print("No se repite")
-
-"""
-Octavio
-Luis
-octa
-gmail
-com
-1234
-1234
-123456
-"""
+    

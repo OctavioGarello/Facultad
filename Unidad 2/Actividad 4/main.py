@@ -13,7 +13,24 @@ El valor de x del vértice superior izquierdo siempre debe ser menor al valor de
 El valor de y del vértice superior izquierdo siempre debe ser menor al valor de y del vértice inferior derecho."""
 
 from clase import Ventana
+def test():
+    print('TEST'.center(30,'-'))
+    objeto = Ventana('Prueba',20,30,100,200)
+    objeto.mostrar()
+    objeto.moverDerecha(10)
+    objeto.mostrar()
+    objeto.moverIzquierda(20)
+    objeto.mostrar()
+    objeto.bajar(10)
+    objeto.mostrar()
+    objeto.subir(10)
+    objeto.mostrar()
+    print('TEST'.center(30,'-'))
+    print("\n")
+
 if __name__ ==  '__main__':
+
+    test()
 
     print('==== Ventana Inicio ====')
 

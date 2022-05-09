@@ -19,6 +19,10 @@ class ViajeroFrecuente:
     
     def cantidadTotalMillas(self):
         return (self.__millas_acum)
+        
+    def acumularMillas(self, acumulador):
+        self.__millas_acum=self.__millas_acum+acumulador
+        return (self.__millas_acum)
 
     def canjearMillas(self, canjear):
         if(canjear<=self.__millas_acum):

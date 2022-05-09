@@ -21,9 +21,20 @@ c- Canjear Millas.
 from clase import ViajeroFrecuente
 import csv
 
+def test():
+    print("------------\n#TEST")
+    instancia=ViajeroFrecuente(1,"43281084","Octavio","Garello",500)
+    acum=100
+    print("Cantidad:[%s]"%(instancia.cantidadTotalMillas()))
+    print("Acumular [%d] Millas: [Total:%d]"%(acum,instancia.acumularMillas(acum)))
+    print("Canjear [%d] Millas: [Total:%d]"%(acum,instancia.canjearMillas(acum)))
+    print("------------\n")
+
+
 if __name__=="__main__":
+    test()
     #Leer archivo 
-    with open("Unidad 2\\Actividad 2\\viajeros.csv","r") as archivo:
+    with open("Actividad 2\\viajeros.csv","r") as archivo:
         lista = csv.reader(archivo,delimiter=',')#Es mi lista
         
         #Leer por teclado
@@ -55,12 +66,10 @@ if __name__=="__main__":
                 elif(menu==2):
                     print("-----")
                     acumulador=int(input("*Ingrese Millas para acumular: "))
-                    mostrar=instancia.acumularMillas(acumulador)
 
                 elif(menu==3):
                     print("-----")
                     canjear=int(input("*Ingrese Millas para Canjear: "))
-                    mostrar=instancia.canjearMillas(canjear)
                     
                 elif(menu==0):
                     print("-----")

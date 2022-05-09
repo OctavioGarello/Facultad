@@ -22,15 +22,21 @@ las variables meteorológicas (instancia de la clase Registro) para cada día de
 
 3.3.Dado un número de día listar los valores de las tres 
 variables para cada hora del día dado. El listado debe tener el siguiente formato."""
-
-
-from clase import  Registro
 import csv
 import os
+from clase import  Registro
 
+def test():
+    print("------------\n#TEST")
+    objeto=Registro(26.0,69,1017)
+    print(objeto.getTemp())
+    print(objeto.getHumedad())
+    print(objeto.getPatmosferica())
+    print("------------\n")
+    
 def compararValores(matriz,m,n):
     mx=mn=matriz[0][0].getTemp() #inicializo el maximo y el minimo
-    dia_mxt=hora_mxt=dia_tmn=hora_tmn=0 #inicializo lñas variables en 0
+    dia_mxt=hora_mxt=dia_tmn=hora_tmn=0 #inicializo las variables en 0
 
     mx2=mn2=matriz[0][0].getHumedad()
     dia_mxh=hora_mxh=dia_hmn=hora_hmn=0 
@@ -101,6 +107,7 @@ def listarVariables(dia:int,matriz,n):
 
 if __name__=="__main__":
 
+    test()
     with open("archivo.csv","r") as archivo:         #declarar el with con la apertura y la variable q almacena 
         lista= csv.reader(archivo,delimiter=",")     #declarar la variable lista con el tipo de separador del archivo csv
 
