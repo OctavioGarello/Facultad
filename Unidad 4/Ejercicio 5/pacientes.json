@@ -1,0 +1,23 @@
+[
+    {
+        "nombre": "Ramiro",
+        "apellido": "Elizondo",
+        "telefono": "2645554313",
+        "altura": "173.00",
+        "peso": "59.00"
+    },
+    {
+        "nombre": "Juan",
+        "apellido": "perez",
+        "telefono": "4659754",
+        "altura": "59",
+        "peso": "198"
+    },
+    {
+        "nombre": "Octavio",
+        "apellido": "Garrello",
+        "telefono": "2465757",
+        "altura": "80",
+        "peso": "180"
+    }
+]
