@@ -11,29 +11,48 @@ Obtener el tiempo máximo de espera de los clientes en la cola.
 Nota: Ingresar el tiempo de atención de cajero y la frecuencia de llegada de los clientes a la cola."""
 
 from typing import Any
+import numpy as np
 import os
 class Cola:
-    __cola: list[Any]
+    __items: np.ndarray
+    __end:int
+    __size:int
 
-    def __init__(self):
-        self.__cola=[]
+    def __init__(self,size):
+        self.__items=np.empty(size, dtype=int)
+        self.__end=0
+        self.__size=size
 
-    def add(self, item):
-        self.__cola.append(item)
-    
-    def remove(self):
-        return self.__cola.pop(0)
-
-    
     def getSize(self):
-        return(len(self.__cola))
+            return self.__end
     
-    def getValue(self):
-        return self.__cola
+    def add(self,item):
+        if self.__end==self.__size:
+            raise Exception("Error sin espacio")
+        else:
+            self.__items[self.__end]=item
+            self.__end+=1
+    
+    def remove (self):
+        if self.__end==0:
+            raise Exception("Error no hay elementos")
+        else:
+            itemRemove=self.__items[0]
 
+            for i in range(self.__end-1): #se ejecuta 2 veces
+                self.__items[i]=self.__items[i+1]
+    
+            self.__end-=1  #3-1
+            self.__items[self.__end]=0 #self.__item[2]=0
+
+            #solo quedaria self.__item[0], self.__item[1]
+            
+        return itemRemove
+    
     def watch(self):
-        for i in self.__cola:
-            print(i)
+        for i in range(self.__end):
+            print(self.__items[i])
+
 
 if __name__=="__main__":
     os.system("cls")
@@ -41,7 +60,9 @@ if __name__=="__main__":
     ta=int(input("Ingresar el tiempo atencion de cajero: "))
     fr=int(input("ingresar la frecuencia de llegada de los clientes: "))
 
-    cola=Cola()
+    size=ts//fr
+
+    cola=Cola(size)
     i=0
     j=0
     te=0 #tiempo de espera total
@@ -59,6 +80,8 @@ if __name__=="__main__":
     average=te/j
 
     print("El Promedio de espera es: [%.2f] min"%average)
+
+
 
 
 

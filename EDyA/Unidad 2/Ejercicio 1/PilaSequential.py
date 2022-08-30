@@ -1,6 +1,4 @@
-#Ejercicio Nº 3: Escriba un programa iterativo, que usando una pila, calcule el factorial de un número n.
 #Pila secuencial
-from typing import Any
 import numpy as np
 
 class Pila: #Lifo
@@ -34,24 +32,16 @@ class Pila: #Lifo
             itemRemove=self.__items[self.__end]
         return itemRemove
     
-    def getValue(self, index):
-        return self.__items[index]    
-        
     def watch(self):
         for i in range(self.__end,0 ,-1):
             print(self.__items[i-1])
-
-    
-def factorial(num):
-    pila=Pila(num)
-    while num!=0:
-        pila.add(num)
-        num-=1
-    i=0
-    result=1    
-    for i in range(pila.getSize(),0 ,-1):
-        result*=pila.getValue(i-1)
-    print(result)
     
 if __name__=="__main__":
-    factorial(5)
+    pila=Pila(3)
+    print("\n #Cargo(1,2,3)")
+    pila.add(1)
+    pila.add(2)
+    pila.add(3)
+    pila.remove()
+    print("\n #Mostrar(2,1)")
+    pila.watch()

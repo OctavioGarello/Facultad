@@ -28,36 +28,55 @@ mostrando el número de jugadas realizadas y el número mínimo de jugadas (2^n 
 #Pila secuencial
 from typing import Any
 import os
+import numpy as np
 
 class Pila: #Lifo
-    __pila: list[Any]
+    __items: np.ndarray
+    __end:int
+    __size:int
 
-    def __init__(self):
-        self.__pila=[]
+    def __init__(self,size):
+        self.__items=np.empty(size, dtype=int)
+        self.__end=0
+        self.__size=size
 
     def getSize(self):
-        if len(self.__pila) is None:
+        if self.__end==0:
             raise Exception("Error no hay elementos")
-        else: return(len(self.__pila))
+        else: 
+            return self.__end
     
     def add(self,item):
-        self.__pila.append(item)
+        if self.__end==self.__size:
+            raise Exception("Error sin espacio")
+        else:
+            self.__items[self.__end]=item
+            self.__end+=1
     
     def remove (self):
-        return self.__pila.pop()
+        if self.__end==0:
+            raise Exception("Error no hay elementos")
+        else:
+            self.__end-=1
+            itemRemove=self.__items[self.__end]
+        return itemRemove
     
     def getLastValue(self):
-        if len(self.__pila)==0:
+        if self.__end==0:
             return 1000
         else:
-            return self.__pila[len(self.__pila)-1] 
+            return self.__items[self.__end-1] 
 
 
     def getIndexValue(self, index):
-        if len(self.__pila)<=index:
+        if self.__end<=index:
             return 0
         else:
-            return self.__pila[index]
+            return self.__items[index]
+    
+    def watch(self):
+        for i in range(self.__end,0 ,-1):
+            print(self.__items[i-1])
     
 
 
@@ -67,9 +86,9 @@ class ManejadorTDH:
     __torre3=None
 
     def __init__(self,size):
-        self.__torre1=Pila()
-        self.__torre2=Pila()
-        self.__torre3=Pila()
+        self.__torre1=Pila(size)
+        self.__torre2=Pila(size)
+        self.__torre3=Pila(size)
         self.load(size)
         self.watch(size)
     
@@ -91,7 +110,7 @@ class ManejadorTDH:
         x=int(input("de Torre: "))
         y=int(input("a la Torre: "))
 
-        self.modify(x,y)    
+        self.modify(x,y)  
         self.watch(size)
             
     def modify(self,x,y):
@@ -102,21 +121,21 @@ class ManejadorTDH:
                 m=self.__torre2.remove()
             elif x==3:
                 m=self.__torre3.remove()
-
-            if y==1 and self.__torre1.getLastValue()>x:
-                self.__torre1.add(x)
-            elif y==2 and self.__torre2.getLastValue()>x:
-                self.__torre2.add(x)
-            elif y==3 and self.__torre3.getLastValue()>x:
-                self.__torre3.add(x)
+                
+            if y==1 and self.__torre1.getLastValue()>m:
+                self.__torre1.add(m)
+            elif y==2 and self.__torre2.getLastValue()>m:
+                self.__torre2.add(m)
+            elif y==3 and self.__torre3.getLastValue()>m:
+                self.__torre3.add(m)
             else:
                 print("No se puede poner un disco de mayor peso sobre otro de menor peso")
                 if x==1:
                     self.__torre1.add(m)
                 elif x==2:
-                    self.__torre1.add(m)
+                    self.__torre2.add(m)
                 elif x==3:
-                    self.__torre1.add(m)               
+                    self.__torre3.add(m)               
                 
         else:
             print("Movimiento Invalido")

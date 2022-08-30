@@ -1,10 +1,8 @@
 """Ejercicio Nº 2:Realizar un programa para implementar la conversión de un número decimal a 
 su representación binaria utilizando el método de las divisiones sucesivas."""
 
-
 from __future__ import annotations
 import os
-
 
 class Node:
     __value=None
