@@ -80,17 +80,54 @@ class LinkedList:
             print("posiciones:[%d]= [%d]"%(cont,mynode.getValue()))
             cont+=1
             mynode=mynode.getNext()
-    
-   
 
+class ListaSequential:
+    __items:np.ndarray
+    __head:int
+    __size:int
+
+    def __init__(self,size):
+        self.__items=np.empty(size,dtype=int)
+        self.__head=0
+        self.__size=size
+    
+    def append(self,value,pos=-1):
+        if pos==-1:
+            pos=self.__head
+        
+        for i in range(self.__head,pos,-1):
+            print(i)
+            self.__items[i]=self.__items[i-1]
+            
+            
+        self.__items[pos]=value
+        self.__head+=1
+    
+    def remove(self,pos=-1):
+        if pos==-1:
+            pos=self.__head
+            
+        for i in range(pos,self.__head-1):
+            self.__items[i]=self.__items[i+1]
+            
+        self.__head-=1
+
+   
+    def watch(self):
+        for i in self.__items:
+            print(i)
 
 if __name__=="__main__":
 
-    test=LinkedList()
-    test.append(3)
-    test.append(2)
-    test.append(1)
-    test.remove(1)
+    test=ListaSequential(6)
+    test.append(600)
+    test.append(500)
+    test.append(400)
+    test.append(300)
+    test.append(200)
+    test.append(1,1)
+
+    test.remove()
     print("\nElementos que quedan:")
     test.watch()
 
