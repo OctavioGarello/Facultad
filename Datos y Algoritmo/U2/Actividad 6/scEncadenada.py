@@ -48,12 +48,13 @@ class colaEncadenada:
         if self.vacia():
             print("La cola esta vacia")
         else:
-            x = self.__primero.getDato() #type:ignore
+            x = self.__primero.getDato() #type: ignore
             self.__primero = self.__primero.getSiguiente() #type: ignore
             self.__cantidad -= 1
 
-            if self.__primero is None:
+            if self.__primero is None: #esto lo utilizamos en el caso hipotetico de que nos quedemos sin elementos en el caso hipotetico
                 self.__ultimo = None
+
             return x
     
     def recorrer(self):
@@ -65,56 +66,46 @@ class colaEncadenada:
     def getCantidad(self):
         return self.__cantidad
 
-class manejador_Simulador: 
-    __cola: colaEncadenada
-    __ts : int
-    __tac : int
-    __fr : int 
-    __max : int
-    __reloj : int
+if __name__ == '__main__':
+    cola = colaEncadenada()
+    #datos de simulacion
+    tiempoSimulacion = 60
+    tiempoAtencion = 5
+    frecuencia = 2
+    tiempoActualCajero = tiempoAtencion + 1
 
-    def __init__ (self, tiempo_simulacion, tiempo_atencion, tiempo_frecuencia):
-        self.__cola = colaEncadenada()
-        self.__ts = tiempo_simulacion
-        self.__tac = tiempo_atencion
-        self.__fr = tiempo_frecuencia
-        self.__tadc = tiempo_atencion + 1 #tiempo actual del cajero
-        self.__max = -1
-        self.__reloj = 0
+    #variables aux
+    reloj = 0
+    atendidos= 0
+    tiempoEsperaAcumulado = 0
 
-    #Ingresar el tiempo de atención de cajero y la frecuencia de llegada de los clientes
-    
-    def simular(self):
-        while self.__reloj <= self.__ts:
-            self.__cola.insertar(self.__reloj)
-            self.cajero()
-            self.__reloj += 1
-        print("El tiempo maximo de espera del cliente fue de: {} minutos".format(self.__max))
+    while reloj <= tiempoSimulacion:
+        numero1 = random.random()
 
-    def ingresarCliente(self):
-        numero = random.random()
-        if numero <= (1/self.__fr): #si(llega cliente)
-            self.__cola.insertar(self.__reloj)
-            print("Llega cliente")
-    
-    def cajero(self):
-        #si viene el primero se atiende, cuando venga el segundo espera, y cuando venga el tercero se atiende el segundo
-        if self.__tadc == self.__tac + 1: #cajero desocupado
-            if not self.__cola.vacia():
-                tiempo = self.__reloj - self.__cola.suprimir() #type:ignore
-                self.__tadc = self.__tac
-                if tiempo > self.__max:
-                    self.__max = tiempo
+        print("Reloj: [{}]".format(reloj))
+
+        if numero1 <= (1/frecuencia): #se llega a la cola
+            cola.insertar(reloj)
+            print("Llego cliente numero [{}]".format(reloj))
+            
+        if tiempoActualCajero == tiempoAtencion + 1: #cajero desocupado
+            if not cola.vacia():
+                cliente = cola.suprimir()
+                tiempoEspera = reloj - cliente #type:ignore
+                atendidos +=1
+                tiempoEsperaAcumulado += tiempoEspera 
+
+                print("Se atiende a cliente numero [{}]: tiempo de espera [{}]".format(cliente, tiempoEspera))
+                tiempoActualCajero = tiempoAtencion
 
         else: #cajero ocupado
-            self.__tadc -= 1
-            if self.__tadc == 0:
-                self.__tadc = self.__tac +1
-
-
-if __name__ == "__main__":
-    os.system("cls")
+            tiempoActualCajero -= 1
+            if tiempoActualCajero == 0:
+                tiempoActualCajero = tiempoAtencion + 1
+        
+        reloj+=1
     
-    ms = manejador_Simulador(60,5,2)
-
-    ms.simular()
+    print("\n------------------------------------------------------\n")
+    print("Cantidad de clientes atendidos: ", atendidos)
+    print("El tiempo promedio de espera de los clientes fue de: ", round(tiempoEsperaAcumulado/atendidos, 2))
+    print("\n------------------------------------------------------\n")
