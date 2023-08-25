@@ -31,6 +31,7 @@ class ListSequential:
             pos=self.__head
         
         if self.validPosicion(pos)==True and self.validSize1()==False:
+            
             for i in range(self.__head, pos, -1):
                 self.__items[i]=self.__items[i-1]
 

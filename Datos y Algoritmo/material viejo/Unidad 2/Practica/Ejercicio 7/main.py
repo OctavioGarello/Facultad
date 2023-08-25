@@ -69,7 +69,7 @@ if __name__=="__main__":
 
     for i in range(ts):
         te+=cola.getSize()
-        if i%fr==0:
+        if i%fr==0:  
             j+=1
             cola.add(j)
             print("Llego el Cliente [%d]"%j)
