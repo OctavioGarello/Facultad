@@ -9,7 +9,7 @@ class Monticulo:
     def __init__(self, dimension):
         self.__arreglo = np.empty(dimension, dtype = int)
         self.__cantidad = 0
-        self.__arreglo[0] = -1
+        self.__arreglo[0] = -1 #Para que el primer elemento no sea 0 y no se confunda con vacío en el método esHoja
         self.__dimension = dimension
     
     def vacio(self):
@@ -112,6 +112,7 @@ class Monticulo:
                     mostrarMonticuloRec(hijoIzq, cadena + " " *sangria)
 
             mostrarMonticuloRec(1, "")
+            print("\n")
         
 if __name__ == '__main__':
     os.system("cls")
@@ -129,7 +130,7 @@ if __name__ == '__main__':
     m.mostrarMonticulo()
 
     bandera= True
-    monticulo_desocupado = 5
+    monticulo_desocupado = 0
 
     while bandera != False:
         if m.vacio():
@@ -139,9 +140,9 @@ if __name__ == '__main__':
             if monticulo_desocupado == 0:
                 print("El paciente de mayor urgencia se esta operando...")
                 eliminado = m.eliminar()
-                print("Quirofano saca de la lista al paciente con urgencia: ", eliminado)
+                print("Quirofano saca de la lista al paciente con urgencia: ", eliminado,"\n")
                 m.mostrarMonticulo()
                 monticulo_desocupado = 5
             else:
                 print("El Quirofano esta ocupado")
-                monticulo_desocupado = 0
+                monticulo_desocupado -= 1
