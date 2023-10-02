@@ -3,117 +3,71 @@ import os
 
 class Monticulo:
     __arreglo : np.ndarray
-    __cantidad : int
     __dimension : int
 
     def __init__(self, dimension):
         self.__arreglo = np.empty(dimension, dtype = int)
-        self.__cantidad = 0
-        self.__arreglo[0] = -1 #Para que el primer elemento no sea 0 y no se confunda con vacío en el método esHoja
-        self.__dimension = dimension
-    
-    def vacio(self):
-        return self.__cantidad == 0
+        self.__arreglo[0] = 0
+        self.__dimension = dimension + 1
 
-    def lleno(self):
-        return self.__cantidad == self.__dimension
-    
-    #Elementos del montículo
-    def Padre(self, posicion):
-        return posicion // 2
-    
-    def hijoIzquierdo(self, posicion):
-        return posicion * 2
-
-    def hijoDerecho(self, posicion):
-        return (posicion * 2) + 1
-
-    #Operaciones del montículo
-    def intercambiar(self, pos1, pos2):
-        aux = self.__arreglo[pos1]
-        self.__arreglo[pos1] = self.__arreglo[pos2]
-        self.__arreglo[pos2] = aux
-    
-    def esHoja(self, posicion):
-        return posicion > self.__cantidad #Si la posición es mayor que la cantidad de elementos, es hoja
-
-    #Operaciones del TAD
-    def insertar(self, dato):  
-        if self.lleno():
-            print("Montículo lleno")
+    def insertar(self, dato):
+        if self.__arreglo[0] < self.__dimension:
+            self.__arreglo[0] += 1
+            self.__arreglo[self.__arreglo[0]] = dato
+            i = self.__arreglo[0]
+            while i > 1 and self.__arreglo[i] < self.__arreglo[i//2]:
+                aux = self.__arreglo[i]
+                self.__arreglo[i] = self.__arreglo[i//2]
+                self.__arreglo[i//2] = aux
+                i = i//2
         else:
-            #Inserto el dato en la última posición
-            self.__cantidad += 1
-            self.__arreglo[self.__cantidad] = dato
-            pos = self.__cantidad
+            print("Monticulo lleno")
 
-            #Se reordena el montículo
-            padre= self.Padre(pos) #Obtengo el padre
-
-            #Mientras el padre sea mayor que el hijo
-            while self.__arreglo[pos] < self.__arreglo[padre]: 
-                self.intercambiar(pos, padre) #Intercambio el padre con el hijo
-
-                #Actualizo las posiciones
-                pos = padre
-                padre = self.Padre(pos)
-    
-    def eliminar_minimo(self, padre):
-        hijoIzq = self.hijoIzquierdo(padre)
-        hijoDer = self.hijoDerecho(padre)
-
-        #Mientras no sea hoja y el padre sea mayor que alguno de sus hijos
-        while not self.esHoja(hijoDer) and (self.__arreglo[padre] > self.__arreglo[hijoIzq] or self.__arreglo[padre] > self.__arreglo[hijoDer]):
-            #Si el hijo izquierdo es menor que el hijo derecho
-            if self.__arreglo[hijoIzq] < self.__arreglo[hijoDer]:
-                self.intercambiar(padre, hijoIzq)
-                padre = hijoIzq
-            #Si el hijo derecho es menor que el hijo izquierdo
-            else:
-                self.intercambiar(padre, hijoDer)
-                padre = hijoDer
-            #Actualizo los hijos
-            hijoIzq = self.hijoIzquierdo(padre)
-            hijoDer = self.hijoDerecho(padre)
-
-    def eliminar(self): 
-        if self.vacio():
-            print("Montículo vacío")
+    def eliminarMinimo(self):
+        if self.__arreglo[0] > 0:
+            x = self.__arreglo[1]
+            self.__arreglo[1] = self.__arreglo[self.__arreglo[0]]
+            self.__arreglo[0] =  self.__arreglo[0] - 1
+            
+            i = 1
+            
+            while (i * 2 + 1 <= self.__arreglo[0]) and ((self.__arreglo[i] > self.__arreglo[i*2]) or (self.__arreglo[i] > self.__arreglo[i*2+1])):
+                if self.__arreglo[i*2] < self.__arreglo[i*2+1]:
+                    aux = self.__arreglo[i * 2]
+                    self.__arreglo[i * 2] = self.__arreglo[i]
+                    self.__arreglo[i] = aux
+                    i = i * 2
+                else:
+                    aux = self.__arreglo[i * 2 + 1]
+                    self.__arreglo[i * 2 + 1] = self.__arreglo[i]
+                    self.__arreglo[i] = aux
+                    i = i * 2 + 1
+            return x
         else:
-            eliminado = self.__arreglo[1] #Guardo el dato a eliminar
+            return -1
 
-            self.__arreglo[1] = self.__arreglo[self.__cantidad] #Pongo el último elemento en la raíz 
-            self.__arreglo[self.__cantidad] = 0 #seteo el último elemento en None
-            self.__cantidad -= 1 #Decremento la cantidad de elementos
-
-            self.eliminar_minimo(1) #Reordeno el montículo
-            return eliminado
-    
-    #Otras operaciones: Mostrar montículo     
     def mostrarMonticulo(self, sangria=4):
-            if self.__cantidad == 0:
-                print("El montículo está vacío")
-                return
+        if self.__arreglo[0] == 0:
+            return
 
-            def mostrarMonticuloRec(posicion, cadena):
-                print(str(self.__arreglo[posicion]))
-                #Para el hijo derecho
-                hijoDer = self.hijoDerecho(posicion)
-                if hijoDer <= self.__cantidad:
-                    if self.hijoIzquierdo(posicion) <= self.__cantidad:
-                        print(cadena+ "├" + "─" * sangria, end="") 
-                    else:
-                        print(cadena+ "└" + "─" * sangria, end="")
-                    mostrarMonticuloRec(hijoDer, cadena + "│" + " " *sangria)
-                #Para el hijo izquierdo
-                hijoIzq = self.hijoIzquierdo(posicion)
-                if hijoIzq <= self.__cantidad:
+        def mostrarMonticuloRec(posicion, cadena):
+            print(str(self.__arreglo[posicion]))
+            #Para el hijo derecho
+            hijoDer = 2 * posicion + 1
+            if hijoDer <= self.__arreglo[0]:
+                if 2 * posicion <= self.__arreglo[0]:
+                    print(cadena+ "├" + "─" * sangria, end="") 
+                else:
                     print(cadena+ "└" + "─" * sangria, end="")
-                    mostrarMonticuloRec(hijoIzq, cadena + " " *sangria)
+                mostrarMonticuloRec(hijoDer, cadena + "│" + " " *sangria)
+            #Para el hijo izquierdo
+            hijoIzq = 2 * posicion
+            if hijoIzq <= self.__arreglo[0]:
+                print(cadena+ "└" + "─" * sangria, end="")
+                mostrarMonticuloRec(hijoIzq, cadena + " " *sangria)
+        mostrarMonticuloRec(1, "")
+    
 
-            mostrarMonticuloRec(1, "")
-            print("\n")
-        
 if __name__ == '__main__':
     os.system("cls")
     m = Monticulo(10)
@@ -133,16 +87,19 @@ if __name__ == '__main__':
     monticulo_desocupado = 0
 
     while bandera != False:
-        if m.vacio():
-            print("El Quirofano no tiene pacientes en espera")
-            bandera = False
-        else:
-            if monticulo_desocupado == 0:
+        if monticulo_desocupado == 0:
+            x = m.eliminarMinimo()
+            
+            if x == -1:
+                print("El Quirofano no tiene pacientes en espera")
+                bandera = False
+            
+            else:
                 print("El paciente de mayor urgencia se esta operando...")
-                eliminado = m.eliminar()
-                print("Quirofano saca de la lista al paciente con urgencia: ", eliminado,"\n")
+                print("Quirofano saca de la lista al paciente con urgencia: ", x,"\n")
                 m.mostrarMonticulo()
                 monticulo_desocupado = 5
-            else:
-                print("El Quirofano esta ocupado")
-                monticulo_desocupado -= 1
+        else:
+            print("El Quirofano esta ocupado")
+            monticulo_desocupado -= 1
+    
